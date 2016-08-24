@@ -3,7 +3,7 @@ import re
 import config
 import ast
 r= config.r
-
+nltk.data.path.append('./nltk_dir/')
 def synoms(lines):
 	words_by_len = {}
 	for line in lines:

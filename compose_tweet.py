@@ -1,5 +1,6 @@
 import ast,random,config,time,nltk,re
 from collections import Counter
+nltk.data.path.append('./nltk_dir/')
 r = config.r
 api = config.api
 def compTweets(user_name,num,byPOS=None):
