@@ -89,4 +89,4 @@ def postTweets(profile):
 		print trim_tweet
 		time.sleep(5)
 		api.update_status(status=trim_tweet)
-		time.sleep(60*1)
+		time.sleep(60*30)
