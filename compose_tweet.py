@@ -90,3 +90,13 @@ def postTweets(profile):
 		time.sleep(5)
 		api.update_status(status=trim_tweet)
 		time.sleep(60*30)
+def singlePostTweet(profile):
+	tweet = compTweets(profile,1)[0]
+	print tweet
+	tweet = re.sub("<stop>",'',tweet)
+	print "Attempting tweet: "
+	trim_tweet = tweet[:140]
+	print len(tweet)
+	print trim_tweet
+	time.sleep(5)
+	api.update_status(status=trim_tweet)
