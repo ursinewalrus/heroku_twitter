@@ -1,4 +1,4 @@
-import ast,random,config,time,nltk,re
+import ast,random,config,time,nltk,re,math
 from collections import Counter
 nltk.data.path.append('./nltk_dir/')
 r = config.r
@@ -31,7 +31,7 @@ def compTweets(user_name,num,byPOS=None):
 		if(len(tweet)>45):
 			print sameMargin, ' MARGIN'
 			print len(tweet.split(' '))*.8
-			if(sameMargin>=len(tweet.split(' '))*.8):
+			if sameMargin>=math.floor(len(tweet.split(' '))*.8):
 				print "GOTTA REPLACE " + tweet
 				orderedByLen = tweet.split(' ')
 				orderedByLen.sort(key = len)
