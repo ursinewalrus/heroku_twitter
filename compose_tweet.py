@@ -29,6 +29,8 @@ def compTweets(user_name,num,byPOS=None):
 				append = random.choice(append)
 			tweet+=' '+append
 		if(len(tweet)>45):
+			print sameMargin, ' MARGIN'
+			print len(tweet.split(' '))*.8
 			if(sameMargin>=len(tweet.split(' '))*.8):
 				print "GOTTA REPLACE " + tweet
 				orderedByLen = tweet.split(' ')
