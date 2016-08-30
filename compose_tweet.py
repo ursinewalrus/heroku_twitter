@@ -86,6 +86,9 @@ def hashify(tweet):
 	tweet  = re.sub('<stop>','',tweet)
 	hashtag = random.choice([h for h in trending if len(h)+len(tweet)<140])# #logic
 	hashtag = '#'+re.sub(r'\W+|[0-9]','',hashtag)#sometimes it gets em with # sometimes not??
+	index = random.choice(range(0,len(hashtag)))
+	newletter = random.sample(set(string.ascii_lowercase)-set(hashtag[index]),1)[0]
+	hashtag = hashtag[:index]+newletter+hashtag[index+1:]
 	return tweet+hashtag+'<stop>'
 
 def postTweets(profile):
