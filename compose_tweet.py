@@ -1,4 +1,4 @@
-import ast,random,config,time,nltk,re,math,getStatuses
+import ast,random,config,time,nltk,re,math,getStatuses,string
 from collections import Counter
 r = config.r
 api = config.api
