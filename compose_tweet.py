@@ -1,6 +1,5 @@
-import ast,random,config,time,nltk,re,math
+import ast,random,config,time,nltk,re,math,getStatuses
 from collections import Counter
-nltk.data.path.append('./nltk_dir/')
 r = config.r
 api = config.api
 def compTweets(user_name,num,byPOS=None):
@@ -10,7 +9,6 @@ def compTweets(user_name,num,byPOS=None):
 	else:
 		chain = ast.literal_eval(r.get(user_name+'_mainchains'))#or file,whatever
 	tweets = []
-
 	while len(tweets)<num:
 		next_pick = ''
 		key_pair=random.choice([starter for starter in chain.keys() if starter[0]=='<start>' and starter[0][0] != '@'])
@@ -29,8 +27,6 @@ def compTweets(user_name,num,byPOS=None):
 				append = random.choice(append)
 			tweet+=' '+append
 		if(len(tweet)>45):
-			print sameMargin, ' MARGIN'
-			print len(tweet.split(' '))*.8
 			if sameMargin>=math.floor(len(tweet.split(' '))*.8):
 				print "GOTTA REPLACE " + tweet
 				orderedByLen = tweet.split(' ')
@@ -44,6 +40,10 @@ def compTweets(user_name,num,byPOS=None):
 				print "NOW IS " + tweet
 			tweet = re.sub(r'apos', "'", tweet)
 			tweet = re.sub(r'quot', "\"", tweet)
+			hashchance = 50
+			while len(tweet)<144 and random.choice(range(0,100))<hashchance:
+				hashchance = hashchance*.6
+				tweet = hashify(tweet)
 			tweets.append(tweet)
 	if byPOS == 'only':
 		convert = []
@@ -67,7 +67,8 @@ def comparePast(chain,key_pair,prior_words,tweet,byPOS=None):
 	if(len(possible_picks)>prior_words-2):
 		if len(set(possible_picks))<2:
 			sameMargin = 1
-		next_pick = random.choice(possible_picks)
+		next_pick = random.sample(set(possible_picks),1)[0]
+		# next_pick = random.choice(possible_picks)
 	elif(prior_words>2):
 		if(len(key_pair)>2):
 			return comparePast(chain,key_pair[1:],prior_words-1,tweet)
@@ -79,6 +80,13 @@ def comparePast(chain,key_pair,prior_words,tweet,byPOS=None):
 		return[(key_pair[1],next_pick),next_pick,byPOS,sameMargin]
 	if(len(key_pair)==3):
 		return[(key_pair[1],key_pair[2],next_pick),next_pick,byPOS,sameMargin]
+
+def hashify(tweet):
+	trending = getStatuses.getTrendingByLocation()
+	tweet  = re.sub('<stop>','',tweet)
+	hashtag = random.choice([h for h in trending if len(h)+len(tweet)<140])# #logic
+	hashtag = '#'+re.sub(r'\W+|[0-9]','',hashtag)#sometimes it gets em with # sometimes not??
+	return tweet+hashtag+'<stop>'
 
 def postTweets(profile):
 	while(1):
