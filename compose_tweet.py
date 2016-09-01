@@ -89,7 +89,7 @@ def hashify(tweet):
 	index = random.choice(range(0,len(hashtag)))
 	newletter = random.sample(set(string.ascii_lowercase)-set(hashtag[index]),1)[0]
 	hashtag = hashtag[:index]+newletter+hashtag[index+1:]
-	return tweet+hashtag+'<stop>'
+	return tweet+' '+hashtag+'<stop>'
 
 def postTweets(profile):
 	while(1):
