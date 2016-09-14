@@ -28,7 +28,6 @@ def compTweets(user_name,num,byPOS=None):
 			tweet+=' '+append
 		if(len(tweet)>45):
 			if sameMargin>=math.floor(len(tweet.split(' '))*.8):
-				print "GOTTA REPLACE " + tweet
 				orderedByLen = tweet.split(' ')
 				orderedByLen.sort(key = len)
 				orderedByLen = orderedByLen[::-1]
@@ -37,7 +36,6 @@ def compTweets(user_name,num,byPOS=None):
 					# type = nltk.pos_tag([random.choice(orderedByLen)])[0][1]
 					replace = random.choice(POSDict[type])
 					tweet = tweet.replace(orderedByLen[i],replace)
-				print "NOW IS " + tweet
 			tweet = re.sub(r'apos', "'", tweet)
 			tweet = re.sub(r'quot', "\"", tweet)
 			hashchance = 50
@@ -84,12 +82,25 @@ def comparePast(chain,key_pair,prior_words,tweet,byPOS=None):
 def hashify(tweet):
 	trending = getStatuses.getTrendingByLocation()
 	tweet  = re.sub('<stop>','',tweet)
-	hashtag = random.choice([h for h in trending if len(h)+len(tweet)<140])# #logic
+	shortenough = [h for h in trending if len(h)+len(tweet)<140]
+	if len(shortenough)<1:
+		return tweet+'<stop>'
+	hashtag = random.choice(shortenough)# #logic
+	
+	splitTag = re.split(r'(?<=[A-Za-z\+])[A-Z](?=[a-z])',hashtag)#if its multiple words lets just steal one of the words hopefully
+	uppers = ''.join([c for c in hashtag if c.isupper()])
+	if(len(splitTag)>1):
+		fullword =  random.choice(range(0,len(splitTag)))
+		maybeMostOfHashtag = splitTag[fullword]
+		if fullword>0:
+			maybeMostOfHashtag = uppers[fullword-1] + maybeMostOfHashtag
+		return tweet+'#'+maybeMostOfHashtag+'<stop>'
+
 	hashtag = '#'+re.sub(r'\W+|[0-9]','',hashtag)#sometimes it gets em with # sometimes not??
 	index = random.choice(range(0,len(hashtag)))
 	newletter = random.sample(set(string.ascii_lowercase)-set(hashtag[index]),1)[0]
 	hashtag = hashtag[:index]+newletter+hashtag[index+1:]
-	return tweet+' '+hashtag+'<stop>'
+	return tweet+hashtag+'<stop>'
 
 def postTweets(profile):
 	while(1):
