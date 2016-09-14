@@ -86,14 +86,13 @@ def hashify(tweet):
 	if len(shortenough)<1:
 		return tweet+'<stop>'
 	hashtag = random.choice(shortenough)# #logic
+	hashtag = hashtag.replace('+','')
+	splitTag = re.findall(r'[A-Z][^A-Z]*',hashtag)#if its multiple words lets just steal one of the words hopefully
 	
-	splitTag = re.split(r'(?<=[A-Za-z\+])[A-Z](?=[a-z])',hashtag)#if its multiple words lets just steal one of the words hopefully
-	uppers = ''.join([c for c in hashtag if c.isupper()])
 	if(len(splitTag)>1):
-		fullword =  random.choice(range(0,len(splitTag)))
-		maybeMostOfHashtag = splitTag[fullword]
-		if fullword>0:
-			maybeMostOfHashtag = uppers[fullword] + maybeMostOfHashtag
+		numwords = random.choice(range(0,len(splitTag)))
+		startLoc =  random.choice(range(0,len(splitTag)+1-numwords))
+		maybeMostOfHashtag = ''.join(splitTag[startLoc:startLoc+numwords])
 		return tweet+'#'+maybeMostOfHashtag+'<stop>'
 
 	hashtag = '#'+re.sub(r'\W+|[0-9]','',hashtag)#sometimes it gets em with # sometimes not??
