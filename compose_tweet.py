@@ -93,13 +93,13 @@ def hashify(tweet):
 		numwords = random.choice(range(0,len(splitTag)))
 		startLoc =  random.choice(range(0,len(splitTag)+1-numwords))
 		maybeMostOfHashtag = ''.join(splitTag[startLoc:startLoc+numwords])
-		return tweet+'#'+maybeMostOfHashtag+'<stop>'
+		return tweet+'#'+maybeMostOfHashtag+' <stop>'
 
 	hashtag = '#'+re.sub(r'\W+|[0-9]','',hashtag)#sometimes it gets em with # sometimes not??
 	index = random.choice(range(0,len(hashtag)))
 	newletter = random.sample(set(string.ascii_lowercase)-set(hashtag[index]),1)[0]
 	hashtag = hashtag[:index]+newletter+hashtag[index+1:]
-	return tweet+hashtag+'<stop>'
+	return tweet+hashtag+' <stop>'
 
 def postTweets(profile):
 	while(1):
