@@ -38,7 +38,7 @@ def compTweets(user_name,num,byPOS=None):
 					tweet = tweet.replace(orderedByLen[i],replace)
 			tweet = re.sub(r'apos', "'", tweet)
 			tweet = re.sub(r'quot', "\"", tweet)
-			hashchance = 50
+			hashchance = 75
 			while len(tweet)<144 and random.choice(range(0,100))<hashchance:
 				hashchance = hashchance*.6
 				tweet = hashify(tweet)
