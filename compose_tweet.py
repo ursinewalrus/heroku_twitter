@@ -93,7 +93,7 @@ def hashify(tweet):
 		fullword =  random.choice(range(0,len(splitTag)))
 		maybeMostOfHashtag = splitTag[fullword]
 		if fullword>0:
-			maybeMostOfHashtag = uppers[fullword-1] + maybeMostOfHashtag
+			maybeMostOfHashtag = uppers[fullword] + maybeMostOfHashtag
 		return tweet+'#'+maybeMostOfHashtag+'<stop>'
 
 	hashtag = '#'+re.sub(r'\W+|[0-9]','',hashtag)#sometimes it gets em with # sometimes not??
